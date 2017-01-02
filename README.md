@@ -6,6 +6,9 @@ Usage:
 
 Say you have dataframes with a colorkey and ready to be output to nlgeojson in memory.
 
+NOTES:
+  This module is for entirely data analysis and visualization purposes upon creating map default browser will be opened and then files (geojson created) will be served locally at point 8000. So be aware this is a procedural script thats more of a tool.
+
 
 ```python
 import pandas as pd
