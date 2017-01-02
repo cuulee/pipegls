@@ -24,3 +24,5 @@ a = [[polygons,'polygons'],[lines,'lines']]
 
 gl.make_map(a)
 ```
+[]!(https://cloud.githubusercontent.com/assets/10904982/21585799/814e5a32-d095-11e6-9d13-ce9920fd05d9.png)
+[]!(https://cloud.githubusercontent.com/assets/10904982/21585798/8148946c-d095-11e6-8191-29208a4b1c95.png)
