@@ -9,6 +9,7 @@ import sys
 from IPython.display import IFrame
 import random
 import time
+import subprocess
 
 if (sys.version_info > (3, 0)):
   import http.server as SimpleHTTPServer
@@ -23,9 +24,8 @@ else:
 
 # sets up a localhost
 def localhost_thing():
- PORT = random.randint(8000,8100)
- with open('a.txt','wb') as f:
-  f.write(str(PORT))
+ subprocess.call(["//anaconda/bin/freeport","8000"])
+ PORT = 8000
 
  Handler = SimpleHTTPServer.SimpleHTTPRequestHandler
 
@@ -205,8 +205,7 @@ function wrap%s(map) {
        'paint': {
          // color circles by ethnicity, using data-driven styles
          'fill-color': '%s',
-         'fill-opacity': 0.5,
-         'fill-outline-color':'black'
+         'fill-opacity': 0.7,
 
          },
        
@@ -520,16 +519,14 @@ def eval_config(configdict,iframe=False,width=False,height=False):
   count += 1
  del configdict
  here()
-
- with open('a.txt','r') as f:
-  port = f.read()
+ time.sleep(.3)
 
  # writiing and opening html
- d(currentlist,latlng,port)
- os.remove('a.txt')
+ d(currentlist,latlng,str(8000))
 
  if iframe == False:
   os.system("open -a Safari index.html")
+  return ''
  else:
   return IFrame('http://localhost:%s/index.html' % port, width=width, height=height)
 
