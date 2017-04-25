@@ -2,7 +2,7 @@ from pipeleaflet import collect,cln
 import pandas as pd
 import os
 import geohash
-from nlgeojson import get_first_bounds,make_lines,make_points,make_polygons,make_blocks
+from nlgeojson import get_first_bounds,make_lines,make_points,make_polygons,make_blocks,fix_geopandas
 from multiprocessing import Process
 import future
 import sys
@@ -319,19 +319,13 @@ def make_starting(latlng):
 <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
 
  <link rel="stylesheet" href="https://npmcdn.com/leaflet@1.0.0-rc.3/dist/leaflet.css" />
- <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v0.15.0/mapbox-gl.js"></script>
+ <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v0.24.0/mapbox-gl.js"></script>
+
 
 
  <div id="map"></div>
 
 
-<style> #map {
- position: relative;
- width: auto;
- height: 650px;
- overflow:visible;
-}
-</style>
 
 <style>
  body { margin:0; padding:0; }
@@ -339,10 +333,11 @@ def make_starting(latlng):
 <style> #map {
  position: relative;
  width: auto;
- height: 650px;
+ height: 100%;
  overflow:visible;
 }
 </style>
+
 
 <style>
 body {
@@ -500,6 +495,7 @@ def make_map(configs,iframe=False,width=800,height=400):
   configs = [configs]
  a = []
  for data,type in configs:
+  data = fix_geopandas(data)
   a = make_config(data,type,current=a)
  return eval_config(a,iframe=iframe,width=width,height=height)
 
