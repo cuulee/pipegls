@@ -8,6 +8,8 @@ setup(name='pipegls',
       author='Bennett Murphy',
       author_email='murphy214@live.marshall.edu',
       url='https://github.com/murphy214/',
-      py_modules=['pipegls']
+      py_modules=['pipegls'],
+      scripts = ['bin/myfreeport']
+
      )
 

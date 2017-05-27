@@ -3,6 +3,7 @@ import pandas as pd
 import os
 import geohash
 from nlgeojson import get_first_bounds,make_lines,make_points,make_polygons,make_blocks,fix_geopandas
+import mapkit as mk
 from multiprocessing import Process
 import future
 import sys
@@ -10,6 +11,7 @@ from IPython.display import IFrame
 import random
 import time
 import subprocess
+import mercantile
 
 if (sys.version_info > (3, 0)):
   import http.server as SimpleHTTPServer
@@ -24,7 +26,7 @@ else:
 
 # sets up a localhost
 def localhost_thing():
- subprocess.call(["//anaconda/bin/freeport","8000"])
+ subprocess.call(["myfreeport","8000"])
  PORT = 8000
 
  Handler = SimpleHTTPServer.SimpleHTTPRequestHandler
@@ -258,7 +260,12 @@ def make_type(data,filename,type):
  if type == 'points':
   make_points(data,filename)
  if type == 'blocks':
+  try:
+   data = mk.map_cards(data)
+  except:
+   pass
   make_blocks(data,filename)
+
  if type == 'lines':
   make_lines(data,filename)
  if type == 'polygons':
@@ -499,6 +506,13 @@ def make_map(configs,iframe=False,width=800,height=400):
   a = make_config(data,type,current=a)
  return eval_config(a,iframe=iframe,width=width,height=height)
 
+def mask_block(configdata,configtype):
+  if configtype == 'blocks':
+    try:
+      return mk.map_cards(configdata)
+    except:
+      pass
+  return configdata
 # given a configuration dict compiles blocks for a specific basefile
 # namm and then opens htmlm webpage
 def eval_config(configdict,iframe=False,width=False,height=False):
@@ -506,6 +520,7 @@ def eval_config(configdict,iframe=False,width=False,height=False):
  count = 1
  latlng = 0
  for config in configdict:
+  config['data'] = mask_block(config['data'],config['type'])
   filename = 'basefile%s_.geojson' % count
   if count == 1:
    currentlist,latlng = make_wraps(config['data'],config['type'],filename,latlng,currentlist=[])
